@@ -1,21 +1,21 @@
 {
   "name": "koishi-plugin-banana-pro",
-  "description": "修改自lmarena-api",
-  "version": "0.0.1",
+  "description": "dalle接口，修改自lmarena-api",
+  "version": "0.0.6",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
     "lib",
-    "dist"
+    "dist",
+    "data"
+    
   ],
   "license": "MIT",
-  "scripts": {},
   "keywords": [
     "chatbot",
     "koishi",
     "plugin"
   ],
-  "devDependencies": {},
   "peerDependencies": {
     "koishi": "^4.18.7"
   }
