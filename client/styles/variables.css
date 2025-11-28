@@ -1,0 +1,31 @@
+/* =========================================
+   CSS VARIABLES ONLY - 不会污染全局样式
+   ========================================= */
+:root {
+    /* Backgrounds */
+    --tech-bg-main: #F2F3F5;
+    --tech-bg-surface: #FFFFFF;
+    --tech-bg-hover: #F7F8FA;
+    --tech-bg-input: #FFFFFF;
+
+    /* Borders */
+    --tech-border: #E5E6EB;
+    --tech-border-hover: #C9CDD4;
+    --tech-border-active: #165DFF;
+
+    /* Text */
+    --tech-text-primary: #1D2129;
+    --tech-text-secondary: #4E5969;
+    --tech-text-muted: #86909C;
+
+    /* Accents */
+    --tech-primary: #165DFF;
+    --tech-primary-hover: #4080FF;
+    --tech-success: #00B42A;
+    --tech-warning: #FF7D00;
+    --tech-error: #F53F3F;
+
+    /* Shadows */
+    --tech-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --tech-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}

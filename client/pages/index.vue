@@ -1,5 +1,5 @@
 <template>
-  <k-layout class="app-layout">
+  <k-layout class="app-layout banana-pro-app">
     <div class="top-nav">
       <div class="nav-container">
         <div class="logo-area"><span class="logo-text">BANANA PRO</span></div>

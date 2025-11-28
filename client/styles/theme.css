@@ -42,11 +42,9 @@
 }
 
 /* =========================================
-   2. RESET & BASE STYLES
+   2. BANANA PRO APP SCOPED STYLES
    ========================================= */
-body {
-    margin: 0;
-    padding: 0;
+.banana-pro-app {
     background-color: var(--tech-bg-main);
     color: var(--tech-text-primary);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -100,100 +98,106 @@ body {
 }
 
 /* =========================================
-   4. ELEMENT PLUS OVERRIDES
+   4. BANANA PRO SCOPED ELEMENT PLUS OVERRIDES
    ========================================= */
-:root {
-    --el-color-primary: var(--tech-primary);
-    --el-bg-color: var(--tech-bg-surface);
-    --el-text-color-primary: var(--tech-text-primary);
-    --el-text-color-regular: var(--tech-text-secondary);
-    --el-border-color: var(--tech-border);
-    --el-border-radius-base: 0px !important;
-    --el-border-radius-small: 0px !important;
-    --el-border-radius-round: 0px !important;
-    --el-border-radius-circle: 0px !important;
-}
-
-/* Force 0px Radius Everywhere */
-* {
-    border-radius: 0 !important;
-}
-
-/* Buttons */
-.el-button {
+/* 只在 banana-pro-app 内部覆盖 Element Plus 样式 */
+.banana-pro-app .el-button {
     height: 32px;
     font-weight: 500;
-    border-radius: 0 !important;
 }
 
-.el-button--primary {
+.banana-pro-app .el-button--primary {
     background-color: var(--tech-primary);
     border-color: var(--tech-primary);
 }
 
-.el-button--primary:hover {
+.banana-pro-app .el-button--primary:hover {
     background-color: var(--tech-primary-hover);
     border-color: var(--tech-primary-hover);
 }
 
-/* Inputs */
-.el-input__wrapper {
+/* Link 类型按钮 */
+.banana-pro-app .el-button.is-link {
+    height: auto;
+    padding: 4px 8px;
+    border: none;
+    background: transparent;
+}
+
+.banana-pro-app .el-button.is-link.el-button--primary {
+    color: var(--tech-primary);
+    background: transparent;
+    border: none;
+}
+
+.banana-pro-app .el-button.is-link.el-button--primary:hover {
+    color: var(--tech-primary-hover);
+    background: transparent;
+}
+
+.banana-pro-app .el-button.is-link.el-button--danger {
+    color: var(--tech-error);
+    background: transparent;
+    border: none;
+}
+
+.banana-pro-app .el-button.is-link.el-button--danger:hover {
+    color: #ff6b6b;
+    background: transparent;
+}
+
+.banana-pro-app .el-input__wrapper {
     box-shadow: none !important;
     border: 1px solid var(--tech-border) !important;
-    border-radius: 0 !important;
     transition: all 0.2s;
 }
 
-.el-input__wrapper:hover {
+.banana-pro-app .el-input__wrapper:hover {
     border-color: var(--tech-border-hover) !important;
 }
 
-.el-input__wrapper.is-focus {
+.banana-pro-app .el-input__wrapper.is-focus {
     border-color: var(--tech-primary) !important;
 }
 
-/* Tables */
-.el-table {
+.banana-pro-app .el-table {
     --el-table-header-bg-color: var(--tech-bg-hover);
     --el-table-border-color: var(--tech-border);
 }
 
-.el-table th.el-table__cell {
+.banana-pro-app .el-table th.el-table__cell {
     font-weight: 600;
     color: var(--tech-text-primary);
     background-color: var(--tech-bg-hover) !important;
 }
 
-/* Tabs */
-.el-tabs__nav-wrap::after {
+.banana-pro-app .el-tabs__nav-wrap::after {
     height: 1px;
     background-color: var(--tech-border);
 }
 
-.el-tabs__item {
+.banana-pro-app .el-tabs__item {
     font-size: 14px;
     color: var(--tech-text-secondary);
     height: 48px;
     line-height: 48px;
 }
 
-.el-tabs__item.is-active {
+.banana-pro-app .el-tabs__item.is-active {
     color: var(--tech-primary);
     font-weight: 600;
 }
 
-.el-tabs__active-bar {
+.banana-pro-app .el-tabs__active-bar {
     height: 2px;
     background-color: var(--tech-primary);
 }
 
-/* Dialogs */
-.el-dialog {
-    border-radius: 0 !important;
+.banana-pro-app .el-dialog {
     box-shadow: var(--tech-shadow);
 }
 
-.el-dialog__header {
+.banana-pro-app .el-dialog__header {
     border-bottom: 1px solid var(--tech-border);
     margin-right: 0;
     padding-bottom: 16px;

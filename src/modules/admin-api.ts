@@ -5,6 +5,8 @@ import { BananaServices, GenerateImageRequest } from '../services'
 import { CommandRegistry } from './command-registry'
 
 export class AdminAPI {
+  private reloadDebounceTimer: NodeJS.Timeout | null = null
+  
   constructor(
     private ctx: Context,
     private logger: Logger,
@@ -23,6 +25,25 @@ export class AdminAPI {
     this.registerGenerateAPI()
     this.registerApiPresetAPI()
     this.registerChatLunaAPI()
+  }
+  
+  /**
+   * 触发指令重载（带防抖）
+   */
+  private async triggerReload() {
+    if (!this.commandRegistry) return
+    
+    // 清除之前的定时器
+    if (this.reloadDebounceTimer) {
+      clearTimeout(this.reloadDebounceTimer)
+    }
+    
+    // 300ms 防抖
+    this.reloadDebounceTimer = setTimeout(async () => {
+      this.logger.info('🔄 开始重载指令...')
+      await this.commandRegistry!.reloadCommands()
+      this.reloadDebounceTimer = null
+    }, 300)
   }
   
   /**
@@ -46,12 +67,7 @@ export class AdminAPI {
     console.addListener('banana/channels/create', async (data: Partial<BananaChannel>) => {
       try {
         const channel = await this.services.channel.create(data)
-        
-        // 重新加载指令
-        if (this.commandRegistry) {
-          await this.commandRegistry.reloadCommands()
-        }
-        
+        await this.triggerReload()
         this.logger.info(`创建渠道成功: ${channel.name}`)
         return { success: true, data: channel }
       } catch (error) {
@@ -64,12 +80,7 @@ export class AdminAPI {
     console.addListener('banana/channels/update', async ({ id, data }: { id: number, data: Partial<BananaChannel> }) => {
       try {
         await this.services.channel.update(id, data)
-        
-        // 重新加载指令
-        if (this.commandRegistry) {
-          await this.commandRegistry.reloadCommands()
-        }
-        
+        await this.triggerReload()
         this.logger.info(`更新渠道成功: ID ${id}`)
         return { success: true }
       } catch (error) {
@@ -82,12 +93,7 @@ export class AdminAPI {
     console.addListener('banana/channels/delete', async ({ id }: { id: number }) => {
       try {
         await this.services.channel.delete(id)
-        
-        // 重新加载指令
-        if (this.commandRegistry) {
-          await this.commandRegistry.reloadCommands()
-        }
-        
+        await this.triggerReload()
         this.logger.info(`删除渠道成功: ID ${id}`)
         return { success: true }
       } catch (error) {
@@ -100,12 +106,7 @@ export class AdminAPI {
     console.addListener('banana/channels/toggle', async ({ id, enabled }: { id: number, enabled: boolean }) => {
       try {
         await this.services.channel.toggle(id, enabled)
-        
-        // 重新加载指令
-        if (this.commandRegistry) {
-          await this.commandRegistry.reloadCommands()
-        }
-        
+        await this.triggerReload()
         this.logger.info(`切换渠道状态: ID ${id}, enabled=${enabled}`)
         return { success: true }
       } catch (error) {
@@ -139,6 +140,7 @@ export class AdminAPI {
           ...data,
           source: 'user' // 新创建的都是用户预设
         })
+        await this.triggerReload()
         this.logger.info(`创建预设成功: ${preset.name}`)
         return { success: true, data: preset }
       } catch (error) {
@@ -152,6 +154,9 @@ export class AdminAPI {
       try {
         const preset = await this.services.preset.getById(id)
         
+        // 检查是否修改了影响指令的字段（名称或启用状态）
+        const needReload = data.name !== undefined || data.enabled !== undefined
+        
         // 如果是 API 预设，编辑时自动转为用户预设
         if (preset && preset.source === 'api') {
           await this.services.preset.update(id, {
@@ -161,6 +166,11 @@ export class AdminAPI {
           this.logger.info(`API 预设转为用户预设: ${preset.name}`)
         } else {
           await this.services.preset.update(id, data)
+        }
+        
+        // 如果修改了名称或启用状态，需要重载指令
+        if (needReload) {
+          await this.triggerReload()
         }
         
         this.logger.info(`更新预设成功: ID ${id}`)
@@ -175,6 +185,7 @@ export class AdminAPI {
     console.addListener('banana/presets/delete', async ({ id }: { id: number }) => {
       try {
         await this.services.preset.delete(id)
+        await this.triggerReload()
         this.logger.info(`删除预设成功: ID ${id}`)
         return { success: true }
       } catch (error) {
@@ -187,6 +198,7 @@ export class AdminAPI {
     console.addListener('banana/presets/toggle', async ({ id, enabled }: { id: number, enabled: boolean }) => {
       try {
         await this.services.preset.toggle(id, enabled)
+        await this.triggerReload()
         this.logger.info(`切换预设状态成功: ID ${id}, enabled: ${enabled}`)
         return { success: true }
       } catch (error) {

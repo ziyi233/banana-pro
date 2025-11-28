@@ -1,7 +1,8 @@
 ﻿import { Context, icons } from '@koishijs/client'
 import Page from './pages/index.vue'
 import BananaIcon from './icons/banana.vue'
-import './styles/theme.css'
+// 移除全局样式导入，避免污染 Koishi 样式
+// import './styles/theme.css'
 
 // 注册自定义香蕉图标
 icons.register('banana', BananaIcon)
