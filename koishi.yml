@@ -1,0 +1,12 @@
+name: banana-pro
+description: 支持 DALL-E 和 ChatLuna 的 AI 图片生成插件
+service:
+  required:
+    - http
+    - logger
+    - i18n
+    - database
+    - console
+  optional:
+    - monetary
+    - chatluna
